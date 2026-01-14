@@ -1095,7 +1095,6 @@
   color: #94a3b8;
   padding: 8px;
 }
-}
 
 /* ================================
    HEALTH CHECKS
@@ -1294,9 +1293,6 @@
 .page-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-  background: #fbbe247a;
-  color: #1f2937;
 }
 
 .health-card.down .health-dot {
@@ -2869,6 +2865,916 @@
 .page-bottom-spacing {
   height: 60px;
   margin-top: 40px;
+}
+
+/* ================================
+   RESPONSIVE DESIGN - TABLET (768px - 1024px)
+================================ */
+
+@media (max-width: 1024px) {
+  .dashboard > div {
+    margin-bottom: 32px;
+  }
+
+  .dashboard-header {
+    margin-bottom: 24px;
+  }
+
+  .dashboard-title {
+    font-size: 22px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 14px 10px 10px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .tabs-nav {
+    gap: 2px;
+    padding: 3px;
+  }
+
+  .tab-button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  .calendar-grid {
+    gap: 3px;
+  }
+
+  .calendar-day {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .calendar-day-number {
+    font-size: 14px;
+  }
+
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .alerts-section {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .affected-services {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .service-card {
+    padding: 12px;
+  }
+
+  .action-buttons-row {
+    gap: 8px;
+  }
+
+  .health-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .health-card {
+    padding: 12px;
+  }
+}
+
+/* ================================
+   RESPONSIVE DESIGN - TABLET PEQUEÑO (768px)
+================================ */
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 16px;
+  }
+
+  .dashboard > div {
+    margin-bottom: 28px;
+  }
+
+  /* Header */
+  .dashboard-header {
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .brand-logo {
+    height: 80px;
+  }
+
+  .dashboard-title {
+    font-size: 20px;
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 12px 8px 8px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .detail-row {
+    font-size: 10px;
+  }
+
+  .stat-meta {
+    font-size: 10px;
+  }
+
+  /* Tabs */
+  .tabs-nav {
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .tab-button {
+    padding: 7px 10px;
+    font-size: 12px;
+    flex: 1 1 auto;
+    min-width: 100px;
+  }
+
+  /* Forms */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  /* Services */
+  .service-card {
+    padding: 12px;
+  }
+
+  .service-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .service-name {
+    font-size: 15px;
+  }
+
+  .service-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .action-buttons-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .action-buttons-row .btn-secondary,
+  .action-buttons-row .btn-primary {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  /* Calendar */
+  .calendar-container {
+    padding: 16px;
+  }
+
+  .calendar-grid {
+    gap: 2px;
+  }
+
+  .calendar-day {
+    padding: 6px;
+    font-size: 10px;
+    min-height: 32px;
+  }
+
+  .calendar-day-number {
+    font-size: 12px;
+  }
+
+  .calendar-event {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+
+  /* Stats Sections */
+  .stats-section {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .stat-box {
+    padding: 14px;
+  }
+
+  .stat-box-title {
+    font-size: 12px;
+  }
+
+  .stat-box-value {
+    font-size: 20px;
+  }
+
+  .alerts-section {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .alert-box {
+    padding: 12px;
+  }
+
+  .alert-item {
+    font-size: 12px;
+  }
+
+  .affected-services {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Health Checks */
+  .health-section {
+    padding: 16px;
+  }
+
+  .section-header {
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .section-subtitle {
+    font-size: 12px;
+  }
+
+  .checks-filters {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .filter-group label {
+    font-size: 12px;
+  }
+
+  .filter-group input,
+  .filter-group select {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  .health-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .health-card {
+    padding: 12px;
+  }
+
+  .health-title {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .health-service {
+    font-size: 14px;
+  }
+
+  .health-badge,
+  .health-importance {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+
+  .detail-item {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  .health-message {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .health-pagination {
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+  }
+
+  .page-btn {
+    padding: 6px 8px;
+    font-size: 11px;
+    min-width: 28px;
+  }
+
+  /* Modals */
+  .settings-modal {
+    width: 95vw;
+    max-width: 100%;
+    max-height: 80vh;
+  }
+
+  .create-incident-modal,
+  .delete-incident-modal {
+    width: 95vw;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .modal-header h2 {
+    font-size: 18px;
+  }
+
+  .modal-content {
+    padding: 16px;
+  }
+}
+
+/* ================================
+   RESPONSIVE DESIGN - MOBILE PEQUEÑO (480px)
+================================ */
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 12px;
+  }
+
+  .dashboard > div {
+    margin-bottom: 20px;
+  }
+
+  /* Header */
+  .dashboard-header {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .brand-logo {
+    height: 60px;
+  }
+
+  .dashboard-title {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .dashboard-subtitle {
+    font-size: 12px;
+  }
+
+  .title-divider {
+    width: 60px;
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 12px 8px 8px;
+    gap: 3px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .stat-value {
+    font-size: 18px;
+  }
+
+  .stat-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .detail-row {
+    font-size: 9px;
+  }
+
+  .stat-meta {
+    font-size: 9px;
+  }
+
+  /* Tabs */
+  .tabs-nav {
+    padding: 2px;
+    gap: 1px;
+    margin-bottom: 16px;
+  }
+
+  .tab-button {
+    padding: 6px 8px;
+    font-size: 11px;
+    min-width: 80px;
+  }
+
+  /* Success Notification */
+  .success-notification {
+    left: 8px;
+    right: 8px;
+    bottom: 12px;
+    font-size: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  /* Forms */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .form-row {
+    gap: 4px;
+  }
+
+  .form-row label {
+    font-size: 12px;
+  }
+
+  .form-row input,
+  .form-row textarea,
+  .form-row select {
+    padding: 8px 8px;
+    font-size: 14px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    width: 100%;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  /* Service Cards */
+  .service-card {
+    padding: 12px;
+  }
+
+  .service-header {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .service-name {
+    font-size: 14px;
+  }
+
+  .service-status {
+    font-size: 12px;
+  }
+
+  .service-info {
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .service-info-group {
+    gap: 8px;
+  }
+
+  .action-buttons-row {
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 0;
+  }
+
+  .action-buttons-row .btn-secondary,
+  .action-buttons-row .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  /* Calendar */
+  .calendar-container {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .calendar-header {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .calendar-grid {
+    gap: 1px;
+  }
+
+  .calendar-day {
+    padding: 4px;
+    font-size: 9px;
+    min-height: 28px;
+    line-height: 1.2;
+  }
+
+  .calendar-day-number {
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  .calendar-event {
+    font-size: 8px;
+    padding: 2px 2px;
+    margin-bottom: 1px;
+  }
+
+  .calendar-event-maintenance {
+    padding: 1px;
+  }
+
+  /* Incidents Section */
+  .incidents-section {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .incident-card {
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+
+  .incident-header {
+    font-size: 13px;
+  }
+
+  .incident-severity {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+
+  .incident-details {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+
+  /* Stats Sections */
+  .stats-section {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .stat-box {
+    padding: 12px;
+  }
+
+  .stat-box-title {
+    font-size: 11px;
+  }
+
+  .stat-box-value {
+    font-size: 18px;
+  }
+
+  .stat-box-subtitle {
+    font-size: 10px;
+  }
+
+  .alerts-section {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .alert-box {
+    padding: 12px;
+  }
+
+  .alert-title {
+    font-size: 12px;
+  }
+
+  .alert-item {
+    font-size: 11px;
+    padding: 6px 0;
+  }
+
+  .alert-count {
+    font-size: 14px;
+  }
+
+  .affected-services {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .affected-service-item {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .affected-service-count {
+    font-size: 14px;
+  }
+
+  /* Health Checks */
+  .health-section {
+    padding: 12px;
+  }
+
+  .section-header {
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .section-subtitle {
+    font-size: 11px;
+  }
+
+  .checks-filters {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .filter-group label {
+    font-size: 11px;
+  }
+
+  .filter-group input,
+  .filter-group select {
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+
+  .health-list {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .health-card {
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .health-header {
+    flex-direction: column;
+  }
+
+  .health-title {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .health-service {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .health-badge,
+  .health-importance {
+    font-size: 10px;
+    padding: 2px 6px;
+    display: inline-block;
+  }
+
+  .detail-item {
+    font-size: 10px;
+    padding: 6px;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .detail-label {
+    font-size: 9px;
+  }
+
+  .health-message {
+    font-size: 11px;
+    padding: 8px;
+    margin-top: 6px;
+    border-radius: 6px;
+  }
+
+  .health-pagination {
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    padding-top: 12px;
+  }
+
+  .page-btn {
+    padding: 5px 7px;
+    font-size: 10px;
+    min-width: 24px;
+    border-radius: 4px;
+  }
+
+  .page-btn:disabled {
+    opacity: 0.5;
+  }
+
+  /* Modals */
+  .settings-modal-overlay {
+    padding: 12px;
+  }
+
+  .settings-modal,
+  .create-incident-modal,
+  .delete-incident-modal {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .modal-header {
+    padding: 14px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .modal-header h2 {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+
+  .modal-content {
+    padding: 14px;
+  }
+
+  /* Deleted Services */
+  .deleted-card {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .deleted-info {
+    margin-bottom: 10px;
+  }
+
+  .deleted-name {
+    font-size: 14px;
+  }
+
+  .deleted-details {
+    font-size: 11px;
+  }
+
+  .action-buttons {
+    gap: 6px;
+  }
+
+  .action-buttons button {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .no-deleted-services {
+    padding: 24px 16px;
+    font-size: 14px;
+  }
+
+  /* Page Bottom Spacing */
+  .page-bottom-spacing {
+    height: 40px;
+    margin-top: 20px;
+  }
+}
+
+/* ================================
+   RESPONSIVE DESIGN - MOBILE MUY PEQUEÑO (< 360px)
+================================ */
+
+@media (max-width: 360px) {
+  .dashboard {
+    padding: 8px;
+  }
+
+  .dashboard-title {
+    font-size: 16px;
+  }
+
+  .stats-grid {
+    gap: 6px;
+  }
+
+  .stat-card {
+    padding: 10px 6px 6px;
+  }
+
+  .stat-value {
+    font-size: 16px;
+  }
+
+  .stat-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .tab-button {
+    padding: 5px 6px;
+    font-size: 10px;
+    min-width: 70px;
+  }
+
+  .section-title {
+    font-size: 14px;
+  }
+
+  .health-card {
+    padding: 8px;
+  }
+
+  .health-service {
+    font-size: 12px;
+  }
+
+  .page-btn {
+    padding: 4px 6px;
+    font-size: 9px;
+    min-width: 22px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
 }
 
 
