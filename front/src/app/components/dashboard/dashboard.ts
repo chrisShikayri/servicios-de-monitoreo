@@ -739,9 +739,17 @@ export class Dashboard implements OnInit, AfterViewInit {
   // TENDENCIAS Y GRÁFICOS
   // ========================================
   generateTrends() {
-    if (!this.servicesHistory.length) return;
+    console.log('generateTrends() llamado');
+    console.log('servicesHistory:', this.servicesHistory);
+    
+    if (!this.servicesHistory.length) {
+      console.warn('No hay historial de servicios');
+      return;
+    }
+    
     const days = this.servicesHistory[0].history.length;
     const totalServices = this.servicesHistory.length;
+    console.log('Generando tendencias: días=', days, 'servicios=', totalServices);
     this.trendData = [];
     
     for (let i = 0; i < days; i++) {
@@ -774,10 +782,20 @@ export class Dashboard implements OnInit, AfterViewInit {
   }
 
   renderCharts() {
+    // Validar que hay datos
+    if (!this.trendData || this.trendData.length === 0) {
+      console.warn('No hay datos de tendencias para renderizar', this.trendData);
+      return;
+    }
+
+    console.log('Renderizando gráficas con datos:', this.trendData);
+    
     const labels = this.trendData.map(d => d.date);
     
-    if (this.areaChart) this.areaChart.destroy();
-    if (this.availabilityChart) this.availabilityChart.destroy();
+    // Esperar a que el canvas esté en el DOM
+    setTimeout(() => {
+      if (this.areaChart) this.areaChart.destroy();
+      if (this.availabilityChart) this.availabilityChart.destroy();
     
     // GRÁFICO DE ÁREA APILADA - Distribución de Estados
     this.areaChart = new Chart('statusAreaChart', {
@@ -872,6 +890,88 @@ export class Dashboard implements OnInit, AfterViewInit {
         }
       }
     });
+
+    // GRÁFICO DE LÍNEA - Disponibilidad General
+    this.availabilityChart = new Chart('availabilityChart', {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Disponibilidad %',
+            data: this.trendData.map(d => d.availability),
+            fill: true,
+            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+            borderColor: 'rgba(21, 101, 192, 1)',
+            borderWidth: 3,
+            pointRadius: 4,
+            pointBackgroundColor: 'rgba(21, 101, 192, 1)',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointHoverRadius: 6,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 15,
+              font: { size: 13, weight: 'bold' },
+              usePointStyle: true,
+              pointStyle: 'circle'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.8)',
+            titleFont: { size: 13, weight: 'bold' },
+            bodyFont: { size: 12 },
+            padding: 12,
+            cornerRadius: 8,
+            titleMarginBottom: 8,
+            callbacks: {
+              label: (context) => {
+                const value = context.parsed.y;
+                return `Disponibilidad: ${value !== null && value !== undefined ? value.toFixed(2) : '0'}%`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)',
+              drawTicks: false
+            },
+            ticks: {
+              font: { size: 12 },
+              callback: (v) => v + '%'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              font: { size: 11 },
+              maxRotation: 45,
+              minRotation: 45
+            }
+          }
+        }
+      }
+    });
+    }, 100); // Cierre del setTimeout
   }
 
   // ========================================
@@ -887,7 +987,11 @@ export class Dashboard implements OnInit, AfterViewInit {
       // Cargar datos de mantenimiento si es necesario
     }
     if (tab === 'tendencias') {
-      setTimeout(() => this.generateTrends());
+      // Usar setTimeout con mayor delay para asegurar que el DOM está listo
+      setTimeout(() => {
+        this.generateTrends();
+        this.cdr.detectChanges();
+      }, 300);
     }
   }
 

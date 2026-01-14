@@ -36,9 +36,16 @@
 .maintenance-card {
   padding: 16px 20px;
   border-bottom: 1px solid #f1f5f9;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   background: #ffffff;
   animation: slideIn 0.3s ease-out;
+}
+
+.maintenance-card.deleting {
+  opacity: 0.6;
+  background: #fef2f2;
+  border-left: 4px solid #ef4444;
+  animation: fadeOutDelete 0.3s ease-out forwards;
 }
 
 @keyframes slideIn {
@@ -48,6 +55,20 @@
   }
   to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutDelete {
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+    max-height: 0;
+    padding: 0 20px;
+    margin: 0;
+    border: none;
+  }
+}
     transform: translateY(0);
   }
 }
@@ -106,9 +127,14 @@
   transition: all 0.2s ease;
 }
 
-.m-actions button:hover {
+.m-actions button:hover:not(:disabled) {
   background: #e2e8f0;
   border-color: #cbd5e1;
+}
+
+.m-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .m-actions button.btn-primary {
@@ -117,7 +143,7 @@
   border-color: #e4002b;
 }
 
-.m-actions button.btn-primary:hover {
+.m-actions button.btn-primary:hover:not(:disabled) {
   background: #c70024;
   border-color: #c70024;
 }
@@ -333,3 +359,184 @@
     font-size: 13px;
   }
 }
+
+/* ================================
+   ALARM MODAL
+================================ */
+
+.alarm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes alarmPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+  }
+}
+
+.alarm-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
+  max-width: 500px;
+  width: 90%;
+  padding: 40px 30px;
+  text-align: center;
+  animation: alarmPulse 2s infinite, slideUp 0.4s ease-out;
+  border: 3px solid #ef4444;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alarm-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.alarm-modal h2 {
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ef4444;
+}
+
+.alarm-content {
+  background: #fef2f2;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.alarm-title {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.alarm-service {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.alarm-message {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #64748b;
+  font-style: italic;
+}
+
+.alarm-time {
+  margin: 12px 0 0 0;
+  font-size: 13px;
+  color: #475569;
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.alarm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.alarm-actions .btn-primary {
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.alarm-actions .btn-primary:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.alarm-actions .btn-secondary {
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.alarm-actions .btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+@media (max-width: 640px) {
+  .alarm-modal {
+    width: 95%;
+    padding: 30px 20px;
+  }
+
+  .alarm-icon {
+    font-size: 60px;
+  }
+
+  .alarm-modal h2 {
+    font-size: 22px;
+  }
+
+  .alarm-actions {
+    flex-direction: column;
+  }
+}
+
