@@ -2450,6 +2450,15 @@
   cursor: not-allowed;
 }
 
+/* ================================
+   ESPACIADO FINAL
+================================ */
+
+.page-bottom-spacing {
+  height: 60px;
+  margin-top: 40px;
+}
+
 
 
 
