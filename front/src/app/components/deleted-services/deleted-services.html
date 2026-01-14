@@ -1,0 +1,19 @@
+<div class="deleted-services">
+  <h2>Servicios eliminados</h2>
+
+  <div *ngIf="loading">Cargando...</div>
+  <div *ngIf="!loading && !deletedServices.length">No hay servicios eliminados</div>
+
+  <div *ngFor="let s of deletedServices" class="deleted-card">
+    <div class="deleted-card-row">
+      <div>
+        <strong>{{ s.nombre }}</strong>
+        <div style="font-size:12px;color:#666">{{ s.clasificacion?.cadena }} · {{ s.clasificacion?.restaurante }}</div>
+      </div>
+      <div>
+        <button class="btn-secondary" (click)="restore(s._id)">Restaurar</button>
+        <button class="btn-danger" (click)="hardDelete(s._id)">Eliminar definitivamente</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="maintenance-panel">
+  <div class="maintenance-header">
+    <h3>Mantenimientos programados</h3>
+  </div>
+
+  <div class="maintenance-list">
+    <div *ngFor="let m of maintenances" class="maintenance-card">
+      <div class="m-row">
+        <div>
+          <strong>{{ m.titulo }}</strong>
+          <div class="m-meta">📦 {{ m.serviceName }} · <span class="m-impacto">{{ m.modo === 'pause' ? '⏸ Pausado' : '📉 Reducido' }}</span></div>
+        </div>
+        <div class="m-actions">
+          <button class="btn-secondary" (click)="finish(m._id)" *ngIf="m.estado !== 'Finalizado'">✓ Finalizar</button>
+          <button class="btn-secondary danger" (click)="remove(m._id)">✕ Eliminar</button>
+        </div>
+      </div>
+      <div class="m-dates">🕐 Inicio: {{ m.fechaInicio | date:'short' }} <span *ngIf="m.fechaFin">· Fin: {{ m.fechaFin | date:'short' }}</span></div>
+      <div class="m-desc" *ngIf="m.descripcion">{{ m.descripcion }}</div>
+    </div>
+    <div *ngIf="!maintenances.length" class="empty">📭 No hay mantenimientos programados</div>
+  </div>
+
+  <div class="maintenance-form">
+    <h4>➕ Crear nuevo mantenimiento</h4>
+    <div class="form-row">
+      <label>Servicio *</label>
+      <select [(ngModel)]="newMaintenance.serviceId" required>
+        <option value="">-- Seleccionar servicio --</option>
+        <option *ngFor="let s of services" [value]="s._id">{{ s.nombre }} <span *ngIf="s.clasificacion?.cadena">· {{ s.clasificacion.cadena }}</span></option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Título *</label>
+      <input [(ngModel)]="newMaintenance.titulo" placeholder="Ej: Actualización de base de datos" />
+    </div>
+    <div class="form-row">
+      <label>Descripción</label>
+      <textarea [(ngModel)]="newMaintenance.descripcion" placeholder="Describe el mantenimiento que se realizará..."></textarea>
+    </div>
+    <div class="form-row">
+      <label>Inicio *</label>
+      <input type="datetime-local" [(ngModel)]="newMaintenance.fechaInicio" required />
+    </div>
+    <div class="form-row">
+      <label>Fin (opcional)</label>
+      <input type="datetime-local" [(ngModel)]="newMaintenance.fechaFin" />
+    </div>
+    <div class="form-row">
+      <label>Modo</label>
+      <select [(ngModel)]="newMaintenance.modo">
+        <option value="pause">⏸ Pausar servicio</option>
+        <option value="reduce">📉 Reducir capacidad</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Multiplicador (para reducción)</label>
+      <input type="number" [(ngModel)]="newMaintenance.multiplier" min="0" max="1" step="0.1" placeholder="0.5" />
+    </div>
+    <div class="form-actions">
+      <button class="btn-primary" (click)="create()" [disabled]="creating">{{ creating ? 'Creando...' : '✓ Crear mantenimiento' }}</button>
+    </div>
+  </div>
+</div>
