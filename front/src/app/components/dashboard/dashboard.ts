@@ -121,6 +121,9 @@ export class Dashboard implements OnInit, AfterViewInit {
   editingService: any = null;
   savingEdit = false;
   deleting = false;
+  showDeleteIncident = false;
+  selectedIncidentToDelete: string = '';
+  deletingIncident = false;
 
   // ========================================
   // DATOS ÚNICOS PARA FILTROS
@@ -450,6 +453,41 @@ export class Dashboard implements OnInit, AfterViewInit {
       this.newIncident.cadena = '';
       this.newIncident.restaurante = '';
     }
+  }
+
+  toggleDeleteIncident() {
+    this.showDeleteIncident = !this.showDeleteIncident;
+    if (!this.showDeleteIncident) {
+      this.selectedIncidentToDelete = '';
+    }
+  }
+
+  confirmAndDeleteIncident() {
+    if (!this.selectedIncidentToDelete) {
+      alert('Selecciona un incidente para eliminar');
+      return;
+    }
+    if (!confirm('¿Estás seguro de que deseas eliminar este incidente?')) {
+      return;
+    }
+    this.deletingIncident = true;
+    this.apiService.deleteIncident(this.selectedIncidentToDelete).subscribe({
+      next: (res) => {
+        this.deletingIncident = false;
+        this.showDeleteIncident = false;
+        this.selectedIncidentToDelete = '';
+        this.apiService.getIncidents().subscribe(data => {
+          this.incidents = data || [];
+          this.loadRecentIncidents();
+          this.cdr.detectChanges();
+        });
+      },
+      error: (err) => {
+        console.error('Error eliminando incidente', err);
+        this.deletingIncident = false;
+        alert('Error eliminando incidente');
+      }
+    });
   }
 
   resolveIncident(id: string) {

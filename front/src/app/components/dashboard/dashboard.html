@@ -170,8 +170,39 @@
       </div>
       <div class="form-actions">
         <button class="btn-primary" (click)="createIncident()">Crear incidente</button>
+        <button class="btn-secondary" (click)="toggleDeleteIncident()">Borrar incidente</button>
       </div>
     </div>
+
+    <!-- Modal para eliminar incidente -->
+    <section *ngIf="showDeleteIncident" class="delete-incident-modal-overlay" (click)="toggleDeleteIncident()">
+      <div class="delete-incident-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>🗑️ Eliminar Incidente</h2>
+          <button class="modal-close" (click)="toggleDeleteIncident()">✕</button>
+        </div>
+        <div class="modal-content">
+          <p class="modal-subtitle">Selecciona el incidente que deseas eliminar</p>
+          
+          <div class="form-row">
+            <label>Seleccionar Incidente</label>
+            <select [(ngModel)]="selectedIncidentToDelete">
+              <option value="">-- Seleccionar incidente --</option>
+              <option *ngFor="let incident of incidents" [value]="incident._id">
+                {{ incident.titulo }} ({{ incident.severidad }}) - {{ incident.estado }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-primary btn-delete" (click)="confirmAndDeleteIncident()" [disabled]="deletingIncident || !selectedIncidentToDelete">
+              {{ deletingIncident ? '⏳ Eliminando...' : '🗑️ Eliminar' }}
+            </button>
+            <button class="btn-secondary" (click)="toggleDeleteIncident()" [disabled]="deletingIncident">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Lista de incidentes recientes -->
     <div class="incidents-list">

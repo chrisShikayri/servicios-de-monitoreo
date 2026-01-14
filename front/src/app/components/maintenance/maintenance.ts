@@ -30,6 +30,7 @@ export class MaintenanceComponent implements OnInit {
 
   ngOnInit() {
     this.loadServices();
+    this.load(); // Cargar también mantenimientos en paralelo
   }
 
   loadServices() {
@@ -47,13 +48,23 @@ export class MaintenanceComponent implements OnInit {
 
   load() {
     this.api.getMaintenance().subscribe((d: any) => {
+      console.log('Mantenimientos recibidos:', d);
       // Mostrar solo mantenimientos activos (ocultar soft-deletes)
-      this.maintenances = (d || [])
+      const mains = (d || [])
         .filter((m: any) => m.activo !== false)
+        .sort((a: any, b: any) => {
+          const dateA = new Date(a.fechaInicio).getTime();
+          const dateB = new Date(b.fechaInicio).getTime();
+          return dateB - dateA; // Más recientes primero
+        })
         .map((m: any) => ({
           ...m,
-          serviceName: this.services.find((s: any) => s._id === m.serviceId)?.nombre || m.serviceId
+          serviceName: (this.services && this.services.length > 0) 
+            ? (this.services.find((s: any) => s._id === m.serviceId)?.nombre || m.serviceId)
+            : m.serviceId
         }));
+      console.log('Mantenimientos mapeados:', mains);
+      this.maintenances = mains;
     });
   }
 
