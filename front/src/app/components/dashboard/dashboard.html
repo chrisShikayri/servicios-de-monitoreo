@@ -254,7 +254,7 @@
   <section class="calendar-section" *ngIf="activeTab === 'calendario'">
     <div class="calendar-header">
       <h2 class="calendar-month">
-        {{ getMonthName(currentMonth) }} {{ currentYear }}
+        📅 {{ getMonthName(currentMonth) }} {{ currentYear }}
       </h2>
       <div class="calendar-nav">
         <button class="nav-button" (click)="previousMonth()">‹</button>
@@ -293,29 +293,29 @@
     </div>
 
     <div class="calendar-incidents">
-      <h3 class="calendar-incidents-title">
-        ⚠️ Incidentes Recientes
-      </h3>
+      <h3 class="calendar-incidents-title">⚠️ Incidentes del Mes</h3>
 
-      <div
-        class="incident-item"
-        *ngFor="let incident of recentIncidents"
-      >
-        <div class="incident-header">
-          <span class="incident-service">
-            {{ incident.service }}
-          </span>
-          <span class="incident-date">
-            {{ incident.date }}
-          </span>
-        </div>
+      <div class="incidents-column" *ngIf="recentIncidents.length > 0">
+        <div
+          class="incident-item"
+          *ngFor="let incident of recentIncidents"
+        >
+          <div class="incident-header">
+            <span class="incident-service" [title]="incident.service">
+              {{ incident.service }}
+            </span>
+            <span class="incident-date">
+              {{ incident.date }}
+            </span>
+          </div>
 
-        <div class="incident-description">
-          {{ incident.description }}
-        </div>
+          <div class="incident-description">
+            {{ incident.description }}
+          </div>
 
-        <div class="incident-duration">
-          Duración: {{ incident.duration }}
+          <div class="incident-duration">
+            ⏱️ {{ incident.duration }}
+          </div>
         </div>
       </div>
 
@@ -323,7 +323,87 @@
         class="incident-empty"
         *ngIf="!recentIncidents.length"
       >
-        No hay incidentes recientes 🎉
+        ✅ No hay incidentes en este mes - ¡Excelente!
+      </div>
+    </div>
+
+    <!-- ESTADÍSTICAS DE MANTENIMIENTO -->
+    <div class="stats-section">
+      <div class="stat-box">
+        <h4 class="stat-box-title">🔧 Mantenimiento</h4>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <span class="stat-label">Programados</span>
+            <span class="stat-number">{{ monthlyMaintenances.length }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Activos</span>
+            <span class="stat-number active">{{ activeMaintenances }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESTADO DE SERVICIOS EN EL PERÍODO -->
+      <div class="stat-box">
+        <h4 class="stat-box-title">📊 Estado del Período</h4>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <span class="stat-label">Con Problemas</span>
+            <span class="stat-number problem">{{ servicesWithProblems }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Resolución Prom.</span>
+            <span class="stat-number">{{ avgResolutionTime }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERVICIOS MÁS AFECTADOS -->
+      <div class="stat-box">
+        <h4 class="stat-box-title">⚡ Más Afectados</h4>
+        <div class="affected-services">
+          <div class="affected-item" *ngFor="let svc of mostAffectedServices">
+            <span class="svc-name">{{ svc.name }}</span>
+            <span class="svc-count">{{ svc.count }} inc.</span>
+          </div>
+          <div class="affected-empty" *ngIf="mostAffectedServices.length === 0">
+            Ninguno
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERTAS RÁPIDAS -->
+    <div class="alerts-section">
+      <div class="alert-box">
+        <h4 class="alert-box-title">🚨 Incidentes Sin Resolver</h4>
+        <div class="alert-list">
+          <div class="alert-item" *ngFor="let incident of unresolvedIncidents">
+            <div class="alert-service">{{ incident.service }}</div>
+            <div class="alert-info">
+              <span class="alert-severity" [ngClass]="incident.severity.toLowerCase()">
+                {{ incident.severity }}
+              </span>
+              <span class="alert-time">{{ incident.days }}d</span>
+            </div>
+          </div>
+          <div class="alert-empty" *ngIf="unresolvedIncidents.length === 0">
+            ✅ Ninguno
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-box">
+        <h4 class="alert-box-title">⏰ Mantenimientos Vencidos</h4>
+        <div class="alert-list">
+          <div class="alert-item" *ngFor="let maint of overdueMaintenances">
+            <div class="alert-service">{{ maint.service }}</div>
+            <div class="alert-overdue">{{ maint.daysOverdue }}d vencido</div>
+          </div>
+          <div class="alert-empty" *ngIf="overdueMaintenances.length === 0">
+            ✅ Ninguno
+          </div>
+        </div>
       </div>
     </div>
   </section>

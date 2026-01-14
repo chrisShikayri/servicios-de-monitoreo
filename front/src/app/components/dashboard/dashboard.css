@@ -192,21 +192,21 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .stat-card {
   position: relative;
   background: #F6F6F6;
-  border-radius: 14px;
-  padding: 20px 16px 16px;
+  border-radius: 12px;
+  padding: 16px 12px 12px;
   border: 1px solid #e4e1e1;
   box-shadow: 0 1px 2px rgba(242, 239, 239, 0.916);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   overflow: hidden;
 }
 
@@ -215,14 +215,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 6px;
+  height: 4px;
   width: 100%;
-  border-radius: 14px 14px 0 0;
+  border-radius: 12px 12px 0 0;
 }
 
 
 .stat-label {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: #abaeb1;
 }
@@ -242,8 +242,8 @@
 }
 
 .stat-details {
-  margin: 8px 0;
-  padding: 8px 0;
+  margin: 6px 0;
+  padding: 6px 0;
   border-top: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -252,8 +252,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
-  font-size: 12px;
+  margin-bottom: 4px;
+  font-size: 11px;
 }
 
 .detail-label {
@@ -268,11 +268,11 @@
 }
 
 .stability-bar {
-  height: 6px;
+  height: 5px;
   background: #e0e0e0;
-  border-radius: 3px;
+  border-radius: 2px;
   overflow: hidden;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .stability-fill {
@@ -285,13 +285,13 @@
 .stat-value,
 .stats-summary-number {
   font-family: 'Roboto Mono', 'Consolas', monospace;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .stat-meta {
-  font-size: 12px;
+  font-size: 11px;
   color: #ced2d8;
 }
 
@@ -644,22 +644,22 @@
 
 .calendar-section {
   background: #ffffff;
-  border-radius: 14px;
-  padding: 20px;
+  border-radius: 12px;
+  padding: 16px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .calendar-month {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #0f172a;
   margin: 0;
@@ -667,21 +667,22 @@
 
 .calendar-nav {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-button {
   background: #f1f5f9;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
   color: #64748b;
+  font-size: 14px;
 }
 
 .nav-button:hover {
@@ -692,30 +693,30 @@
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 4px;
+  margin-bottom: 6px;
 }
 
 .weekday {
   text-align: center;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   color: #64748b;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 24px;
+  gap: 4px;
+  margin-bottom: 16px;
 }
 
 .calendar-day {
   aspect-ratio: 1;
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 8px;
+  border-radius: 6px;
+  padding: 4px;
   position: relative;
   background: #fff;
   cursor: pointer;
@@ -724,11 +725,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 36px;
 }
 
 .calendar-day:hover:not(.empty) {
   border-color: #cbd5e1;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+  background: #f8fafc;
 }
 
 .calendar-day.empty {
@@ -739,20 +742,20 @@
 .calendar-day.today {
   background: #fef9c3;
   border-color: #fbbf24;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .day-number {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   color: #0f172a;
 }
 
 .incident-indicator {
   position: absolute;
-  bottom: 6px;
-  width: 8px;
-  height: 8px;
+  bottom: 3px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
 }
 
@@ -765,87 +768,130 @@
 }
 
 /* RECENT INCIDENTS IN CALENDAR */
-.incidents-list {
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  border-radius: 12px;
-  padding: 16px;
+.calendar-incidents {
+  margin-top: 16px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
 }
 
-.incidents-header {
+.calendar-incidents-title {
+  grid-column: 1 / -1;
+}
+
+.incidents-column {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  color: #92400e;
-  font-weight: 600;
-  font-size: 14px;
+  flex-direction: column;
+  max-width: 360px;
+  width: 100%;
+}
+
+.calendar-incidents-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #0f172a;
 }
 
 .incident-item {
-  background: #fff;
-  border: 1px solid #fde68a;
+  padding: 10px;
   border-radius: 8px;
-  padding: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
   margin-bottom: 8px;
+  flex-shrink: 0;
 }
 
 .incident-item:last-child {
   margin-bottom: 0;
 }
 
-.incident-service {
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 4px;
-  color: #0f172a;
-}
-
-.incident-desc {
-  font-size: 13px;
-  color: #64748b;
-  margin-bottom: 6px;
-}
-
-.incident-time {
-  font-size: 12px;
-  color: #94a3b8;
-}
-.calendar-incidents {
-  margin-top: 24px;
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-}
-
-.calendar-incidents-title {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #0f172a;
-}
-
-.incident-item {
-  padding: 12px;
-  border-radius: 10px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  margin-bottom: 10px;
-}
-
 .incident-header {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   color: #991b1b;
+  margin-bottom: 4px;
+}
+
+.incident-service {
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.incident-date {
+  font-size: 11px;
+  color: #d1211f;
+  flex-shrink: 0;
 }
 
 .incident-description {
-  font-size: 13px;
+  font-size: 12px;
   color: #7f1d1d;
-  margin: 6px 0;
+  margin: 4px 0;
+  line-height: 1.3;
+  max-height: 32px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.incident-duration {
+  font-size: 10px;
+  color: #b91c1c;
+}
+
+.incident-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 16px;
+  color: #64748b;
+  font-size: 13px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+/* Filtros de severidad */
+.severity-filters {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.severity-btn {
+  padding: 4px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #f8fafc;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #64748b;
+}
+
+.severity-btn:hover,
+.severity-btn.active {
+  background: #0f172a;
+  color: white;
+  border-color: #0f172a;
+}
+
+.incidents-column h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px 0;
 }
 
 .incident-duration {
@@ -858,6 +904,197 @@
   color: #64748b;
   text-align: center;
   padding: 16px 0;
+}
+
+/* ========== ESTADÍSTICAS DEL PERÍODO ========== */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.stat-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.stat-box-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+}
+
+.stat-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.stat-number {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.stat-number.active {
+  color: #059669;
+}
+
+.stat-number.problem {
+  color: #dc2626;
+}
+
+.affected-services {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.affected-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border-left: 3px solid #f59e0b;
+}
+
+.svc-name {
+  font-size: 11px;
+  color: #0f172a;
+  font-weight: 600;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.svc-count {
+  font-size: 10px;
+  background: #fbbf24;
+  color: #78350f;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.affected-empty {
+  text-align: center;
+  font-size: 11px;
+  color: #94a3b8;
+  padding: 6px;
+}
+
+/* ========== ALERTAS RÁPIDAS ========== */
+.alerts-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.alert-box {
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.alert-box-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7f1d1d;
+  margin: 0 0 8px 0;
+}
+
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.alert-item {
+  background: white;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert-service {
+  font-size: 11px;
+  font-weight: 600;
+  color: #991b1b;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alert-info {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.alert-severity {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.alert-severity.alta {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.alert-severity.media {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.alert-severity.baja {
+  background: #dbeafe;
+  color: #0c4a6e;
+}
+
+.alert-time {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.alert-overdue {
+  font-size: 10px;
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.alert-empty {
+  text-align: center;
+  font-size: 11px;
+  color: #94a3b8;
+  padding: 8px;
+}
 }
 
 /* ================================

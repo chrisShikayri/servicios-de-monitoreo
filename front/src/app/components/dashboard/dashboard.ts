@@ -148,6 +148,19 @@ export class Dashboard implements OnInit, AfterViewInit {
   currentYear: number = new Date().getFullYear();
   calendarDays: any[] = [];
   recentIncidents: any[] = [];
+  
+  // Estadísticas de Mantenimiento
+  monthlyMaintenances: any[] = [];
+  activeMaintenances: number = 0;
+  
+  // Estadísticas de Servicios en el Período
+  servicesWithProblems: number = 0;
+  mostAffectedServices: any[] = [];
+  avgResolutionTime: string = '—';
+  
+  // Alertas Rápidas
+  unresolvedIncidents: any[] = [];
+  overdueMaintenances: any[] = [];
 
   // ========================================
   // HISTORIAL Y TENDENCIAS
@@ -157,6 +170,7 @@ export class Dashboard implements OnInit, AfterViewInit {
   trendData: TrendDay[] = [];
   areaChart!: Chart;
   availabilityChart!: Chart;
+
 
   // ========================================
   // CONSTRUCTOR
@@ -678,7 +692,94 @@ export class Dashboard implements OnInit, AfterViewInit {
         date: new Date(i.fechaInicio).toLocaleDateString('es-EC'),
         duration: '—'
       }));
+    
+    // Calcular estadísticas del período
+    this.calculateMonthlyStatistics();
     this.cdr.detectChanges();
+  }
+
+  calculateMonthlyStatistics() {
+    const now = new Date();
+    const monthStart = new Date(this.currentYear, this.currentMonth, 1);
+    const monthEnd = new Date(this.currentYear, this.currentMonth + 1, 0);
+
+    // ========== ESTADÍSTICAS DE MANTENIMIENTO ==========
+    const maintenanceApi = (this.maintenanceCmp as any)?.maintenances || [];
+    this.monthlyMaintenances = maintenanceApi.filter((m: any) => {
+      const mStart = new Date(m.inicio);
+      return mStart >= monthStart && mStart <= monthEnd;
+    });
+    
+    this.activeMaintenances = maintenanceApi.filter((m: any) => {
+      const mEnd = new Date(m.fin);
+      return mEnd > now;
+    }).length;
+
+    // ========== ESTADÍSTICAS DE SERVICIOS EN EL PERÍODO ==========
+    const incidentsInMonth = this.incidents.filter((i: any) => {
+      const iDate = new Date(i.fechaInicio);
+      return iDate >= monthStart && iDate <= monthEnd;
+    });
+
+    // Servicios con problemas
+    const affectedServiceIds = new Set(incidentsInMonth.map((i: any) => i.serviceId));
+    this.servicesWithProblems = affectedServiceIds.size;
+
+    // Servicios más afectados
+    const serviceIncidentCount: { [key: string]: { count: number; name: string } } = {};
+    incidentsInMonth.forEach((i: any) => {
+      const svc = this.getServiceNameById(i.serviceId);
+      if (!serviceIncidentCount[i.serviceId]) {
+        serviceIncidentCount[i.serviceId] = { count: 0, name: svc };
+      }
+      serviceIncidentCount[i.serviceId].count++;
+    });
+
+    this.mostAffectedServices = Object.values(serviceIncidentCount)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 3);
+
+    // Tiempo promedio de resolución
+    const resolvedIncidents = incidentsInMonth.filter((i: any) => i.estado === 'Resuelto' && i.fechaResolucion);
+    if (resolvedIncidents.length > 0) {
+      const totalTime = resolvedIncidents.reduce((sum: number, i: any) => {
+        const start = new Date(i.fechaInicio).getTime();
+        const end = new Date(i.fechaResolucion).getTime();
+        return sum + (end - start);
+      }, 0);
+      const avgMs = totalTime / resolvedIncidents.length;
+      const avgHours = Math.round(avgMs / (1000 * 60 * 60) * 10) / 10;
+      this.avgResolutionTime = avgHours < 24 ? `${avgHours}h` : `${Math.round(avgHours / 24)}d`;
+    }
+
+    // ========== ALERTAS RÁPIDAS ==========
+    this.unresolvedIncidents = this.incidents
+      .filter((i: any) => i.estado !== 'Resuelto')
+      .sort((a, b) => +new Date(b.fechaInicio) - +new Date(a.fechaInicio))
+      .slice(0, 3)
+      .map((i: any) => ({
+        service: this.getServiceNameById(i.serviceId),
+        title: i.titulo,
+        severity: i.severidad,
+        days: this.getDaysDifference(new Date(i.fechaInicio))
+      }));
+
+    this.overdueMaintenances = maintenanceApi
+      .filter((m: any) => {
+        const end = new Date(m.fin);
+        return end < now && m.estado !== 'Completado';
+      })
+      .slice(0, 3)
+      .map((m: any) => ({
+        service: this.getServiceNameById(m.serviceId),
+        daysOverdue: this.getDaysDifference(new Date(m.fin))
+      }));
+  }
+
+  getDaysDifference(date: Date): number {
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
   }
 
   getServiceNameById(id: string): string {
