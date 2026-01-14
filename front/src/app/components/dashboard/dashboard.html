@@ -1,5 +1,10 @@
 <div class="dashboard">
 
+  <!-- NOTIFICACIÓN DE ÉXITO -->
+  <div *ngIf="showSuccessNotification" class="success-notification">
+    {{ successMessage }}
+  </div>
+
   <!-- HEADER -->
   <header class="dashboard-header">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQxetRwKHF0eyrLM44loQHpENyIZhhN4-vRA&s" alt="KFC" class="brand-logo">
@@ -463,6 +468,14 @@
           'down': service.estado === 'Interrumpido'
         }"
       >
+          <!-- Status Flag Corner -->
+          <div class="status-flag" [ngClass]="{
+            'flag-ok': service.estado === 'Operando normalmente',
+            'flag-impact': service.estado === 'Impactado',
+            'flag-degraded': service.estado === 'Degradado',
+            'flag-down': service.estado === 'Interrumpido'
+          }"></div>
+          
           <div class="service-header">
             <div class="service-title">
               <div *ngIf="editingServiceId !== service._id">

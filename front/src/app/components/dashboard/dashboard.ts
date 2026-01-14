@@ -43,6 +43,9 @@ export class Dashboard implements OnInit, AfterViewInit {
   showSettings = false;
   showCreateService = false;
   activeTab: string = 'actual';
+  showSuccessNotification = false;
+  successMessage = '';
+  successNotificationTimeout: any = null;
   
   // ========================================
   // DATOS PRINCIPALES
@@ -317,10 +320,26 @@ export class Dashboard implements OnInit, AfterViewInit {
   createService() {
     if (this.creating) return;
     this.creating = true;
+    
     this.apiService.createService(this.newService).subscribe({
       next: (res) => {
         this.creating = false;
         this.showCreateService = false;
+        
+        // Mostrar notificación de éxito
+        this.successMessage = `✅ Servicio "${this.newService.nombre}" creado exitosamente`;
+        this.showSuccessNotification = true;
+        this.cdr.detectChanges();
+        
+        // Auto-ocultar la notificación después de 4 segundos
+        if (this.successNotificationTimeout) {
+          clearTimeout(this.successNotificationTimeout);
+        }
+        this.successNotificationTimeout = setTimeout(() => {
+          this.showSuccessNotification = false;
+          this.cdr.detectChanges();
+        }, 4000);
+        
         this.newService = { 
           nombre: '', 
           descripcion: '', 
@@ -331,15 +350,29 @@ export class Dashboard implements OnInit, AfterViewInit {
           importancia: 'media', 
           activo: true 
         };
-        this.loadData();
-        this.cdr.detectChanges();
+        
+        // Recargar datos después de 500ms para asegurar que se cree
+        setTimeout(() => {
+          this.loadData();
+          this.cdr.detectChanges();
+        }, 500);
       },
       error: (err) => {
         this.creating = false;
         console.error('Error creando servicio', err);
+        alert('❌ Error al crear el servicio. Intenta de nuevo.');
         this.cdr.detectChanges();
       }
     });
+    
+    // Timeout de seguridad: si no responde en 15 segundos, cancelar
+    setTimeout(() => {
+      if (this.creating) {
+        this.creating = false;
+        alert('⚠️ La solicitud tardó demasiado. Por favor intenta de nuevo.');
+        this.cdr.detectChanges();
+      }
+    }, 15000);
   }
 
   startEdit(service: any) {
@@ -361,18 +394,38 @@ export class Dashboard implements OnInit, AfterViewInit {
   saveEdit(id: string) {
     if (this.savingEdit) return;
     this.savingEdit = true;
+    const serviceName = this.editingService?.nombre || 'Servicio';
     const body = { ...this.editingService };
     this.apiService.updateService(id, body).subscribe({
       next: () => {
         this.savingEdit = false;
         this.editingServiceId = null;
         this.editingService = null;
-        this.loadData();
+        
+        // Mostrar notificación de éxito
+        this.successMessage = `✅ ${serviceName} actualizado correctamente`;
+        this.showSuccessNotification = true;
         this.cdr.detectChanges();
+        
+        // Auto-ocultar la notificación después de 4 segundos
+        if (this.successNotificationTimeout) {
+          clearTimeout(this.successNotificationTimeout);
+        }
+        this.successNotificationTimeout = setTimeout(() => {
+          this.showSuccessNotification = false;
+          this.cdr.detectChanges();
+        }, 4000);
+        
+        // Recargar datos automáticamente
+        setTimeout(() => {
+          this.loadData();
+          this.cdr.detectChanges();
+        }, 300);
       },
       error: (err) => {
         this.savingEdit = false;
         console.error('Error actualizando servicio', err);
+        alert('❌ Error al actualizar el servicio. Intenta de nuevo.');
         this.cdr.detectChanges();
       }
     });
@@ -382,15 +435,50 @@ export class Dashboard implements OnInit, AfterViewInit {
     if (!confirm('¿Eliminar este servicio?')) return;
     if (this.deleting) return;
     this.deleting = true;
+    
+    // Eliminar inmediatamente de la lista para feedback visual
+    const indexToRemove = this.services.findIndex((s: any) => s._id === id);
+    const removedService = indexToRemove >= 0 ? this.services[indexToRemove] : null;
+    const serviceName = removedService?.nombre || 'Servicio';
+    
+    if (indexToRemove >= 0) {
+      this.services.splice(indexToRemove, 1);
+      this.cdr.detectChanges();
+    }
+    
     this.apiService.deleteService(id).subscribe({
       next: () => {
         this.deleting = false;
-        this.loadData();
+        
+        // Mostrar notificación de éxito
+        this.successMessage = `✅ "${serviceName}" eliminado exitosamente`;
+        this.showSuccessNotification = true;
         this.cdr.detectChanges();
+        
+        // Auto-ocultar la notificación después de 4 segundos
+        if (this.successNotificationTimeout) {
+          clearTimeout(this.successNotificationTimeout);
+        }
+        this.successNotificationTimeout = setTimeout(() => {
+          this.showSuccessNotification = false;
+          this.cdr.detectChanges();
+        }, 4000);
+        
+        // Recargar datos desde el servidor
+        setTimeout(() => {
+          this.loadData();
+          this.cdr.detectChanges();
+        }, 300);
       },
       error: (err) => {
         this.deleting = false;
         console.error('Error eliminando servicio', err);
+        
+        // Restaurar en la lista si falla
+        if (removedService && indexToRemove >= 0) {
+          this.services.splice(indexToRemove, 0, removedService);
+        }
+        alert('❌ Error al eliminar el servicio. Intenta de nuevo.');
         this.cdr.detectChanges();
       }
     });
@@ -418,8 +506,23 @@ export class Dashboard implements OnInit, AfterViewInit {
       return;
     }
     const payload = { ...this.newIncident };
+    const serviceName = this.getServiceNameById(this.newIncident.serviceId);
     this.apiService.createIncident(payload).subscribe({
       next: (res) => {
+        // Mostrar notificación de éxito
+        this.successMessage = `✅ Incidente en "${serviceName}" creado exitosamente`;
+        this.showSuccessNotification = true;
+        this.cdr.detectChanges();
+        
+        // Auto-ocultar la notificación después de 4 segundos
+        if (this.successNotificationTimeout) {
+          clearTimeout(this.successNotificationTimeout);
+        }
+        this.successNotificationTimeout = setTimeout(() => {
+          this.showSuccessNotification = false;
+          this.cdr.detectChanges();
+        }, 4000);
+        
         this.newIncident = { 
           serviceId: '', 
           titulo: '', 
@@ -430,15 +533,16 @@ export class Dashboard implements OnInit, AfterViewInit {
           cadena: '', 
           restaurante: '' 
         };
-        this.apiService.getIncidents().subscribe(data => {
-          this.incidents = data || [];
-          this.loadRecentIncidents();
+        
+        // Recargar datos automáticamente después de 300ms
+        setTimeout(() => {
+          this.loadData();
           this.cdr.detectChanges();
-        });
+        }, 300);
       },
       error: (err) => {
         console.error('Error creando incidente', err);
-        alert('Error creando incidente');
+        alert('❌ Error al crear el incidente. Intenta de nuevo.');
       }
     });
   }
@@ -471,21 +575,52 @@ export class Dashboard implements OnInit, AfterViewInit {
       return;
     }
     this.deletingIncident = true;
+    
+    // Encontrar y remover inmediatamente de la lista
+    const indexToRemove = this.incidents.findIndex((i: any) => i._id === this.selectedIncidentToDelete);
+    const removedIncident = indexToRemove >= 0 ? this.incidents[indexToRemove] : null;
+    
+    if (indexToRemove >= 0) {
+      this.incidents.splice(indexToRemove, 1);
+      this.cdr.detectChanges();
+    }
+    
     this.apiService.deleteIncident(this.selectedIncidentToDelete).subscribe({
       next: (res) => {
         this.deletingIncident = false;
         this.showDeleteIncident = false;
         this.selectedIncidentToDelete = '';
-        this.apiService.getIncidents().subscribe(data => {
-          this.incidents = data || [];
-          this.loadRecentIncidents();
+        
+        // Mostrar notificación de éxito
+        this.successMessage = '✅ Incidente eliminado exitosamente';
+        this.showSuccessNotification = true;
+        this.cdr.detectChanges();
+        
+        // Auto-ocultar la notificación después de 4 segundos
+        if (this.successNotificationTimeout) {
+          clearTimeout(this.successNotificationTimeout);
+        }
+        this.successNotificationTimeout = setTimeout(() => {
+          this.showSuccessNotification = false;
           this.cdr.detectChanges();
-        });
+        }, 4000);
+        
+        // Recargar datos automáticamente
+        setTimeout(() => {
+          this.loadData();
+          this.cdr.detectChanges();
+        }, 300);
       },
       error: (err) => {
         console.error('Error eliminando incidente', err);
         this.deletingIncident = false;
-        alert('Error eliminando incidente');
+        
+        // Restaurar en la lista si falla
+        if (removedIncident && indexToRemove >= 0) {
+          this.incidents.splice(indexToRemove, 0, removedIncident);
+        }
+        alert('❌ Error al eliminar el incidente. Intenta de nuevo.');
+        this.cdr.detectChanges();
       }
     });
   }
@@ -495,11 +630,29 @@ export class Dashboard implements OnInit, AfterViewInit {
     const payload = { estado: 'Resuelto', fechaResolucion: new Date().toISOString() };
     this.apiService.updateIncidentStatus(id, payload).subscribe({
       next: () => {
-        this.loadData();
+        // Mostrar notificación de éxito
+        this.successMessage = '✅ Incidente marcado como resuelto';
+        this.showSuccessNotification = true;
+        this.cdr.detectChanges();
+        
+        // Auto-ocultar la notificación después de 4 segundos
+        if (this.successNotificationTimeout) {
+          clearTimeout(this.successNotificationTimeout);
+        }
+        this.successNotificationTimeout = setTimeout(() => {
+          this.showSuccessNotification = false;
+          this.cdr.detectChanges();
+        }, 4000);
+        
+        // Recargar datos automáticamente
+        setTimeout(() => {
+          this.loadData();
+          this.cdr.detectChanges();
+        }, 300);
       },
       error: (err) => {
         console.error('Error resolviendo incidente', err);
-        alert('No se pudo resolver el incidente');
+        alert('❌ Error al resolver el incidente. Intenta de nuevo.');
       }
     });
   }
