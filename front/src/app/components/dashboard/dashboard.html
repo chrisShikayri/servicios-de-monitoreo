@@ -632,8 +632,12 @@
   </section>
 
   <!-- HEALTH CHECKS -->
-  <section class="health-section" *ngIf="activeTab !== 'mantenimiento' && activeTab !== 'calendario' && activeTab !== 'tendencias'">
-    <h2 class="section-title">Health Checks</h2>
+  <section class="health-section" *ngIf="activeTab === 'actual'">
+    <div class="section-header">
+      <h2 class="section-title">🏥 Health Checks</h2>
+      <p class="section-subtitle">Monitoreo de servicios en tiempo real</p>
+    </div>
+    
     <div class="filters-bar checks-filters">
       <div class="filters-row">
         <div class="filter-item">
@@ -670,10 +674,11 @@
         </div>
       </div>
       <div class="filter-actions">
-        <button class="btn-secondary" (click)="filtroChecksDesde=''; filtroChecksHasta=''; filtroChecksEstado=''; filtroChecksCadena=''; filtroChecksRestaurante=''">Limpiar</button>
+        <button class="btn-secondary" (click)="filtroChecksDesde=''; filtroChecksHasta=''; filtroChecksEstado=''; filtroChecksImportancia=''; filtroChecksCadena=''; filtroChecksRestaurante=''">Limpiar</button>
         <button class="btn-primary" (click)="currentPage = 1">Filtrar</button>
       </div>
     </div>
+
     <div class="health-list">
       <div
         class="health-card"
@@ -685,37 +690,37 @@
           'down': check.estado === 'Interrumpido'
         }"
       >
-        <div class="health-content">
-          <div class="health-header">
-            <span class="health-service">
-              {{ getServiceNameById(check.serviceId) }}
-            </span>
-              <span class="health-badge">{{ check.estado }}</span>
-              <span *ngIf="check.importancia" class="health-importance">⚑ {{ check.importancia }}</span>
+        <div class="health-header">
+          <div class="health-title">
+            <span class="health-service">{{ getServiceNameById(check.serviceId) }}</span>
+            <span class="health-badge">{{ check.estado }}</span>
+            <span *ngIf="check.importancia" class="health-importance">⚑ {{ check.importancia }}</span>
           </div>
+        </div>
 
-          <div class="health-meta">
-            {{ check.cadena }} · {{ check.restaurante }}
-          </div>
+        <div class="health-meta">
+          <span *ngIf="check.cadena">{{ check.cadena }}</span>
+          <span *ngIf="check.restaurante">{{ check.restaurante }}</span>
+        </div>
 
-          <div class="health-details">
-            <span *ngIf="check.tiempoRespuestaMs">⏱ {{ check.tiempoRespuestaMs }} ms</span>
-            <span *ngIf="check.codigoRespuesta">🔢 {{ check.codigoRespuesta }}</span>
-            <span>🕒 {{ check.fechaRevision || check.fecha | date:'short' }}</span>
-          </div>
+        <div class="health-details">
+          <span *ngIf="check.tiempoRespuestaMs" class="detail-item">⏱ {{ check.tiempoRespuestaMs }} ms</span>
+          <span *ngIf="check.codigoRespuesta" class="detail-item">🔢 {{ check.codigoRespuesta }}</span>
+          <span class="detail-item">🕒 {{ check.fechaRevision || check.fecha | date:'short' }}</span>
+        </div>
 
-          <div class="health-message" *ngIf="check.mensaje">
-            {{ check.mensaje }}
-          </div>
+        <div class="health-message" *ngIf="check.mensaje">
+          {{ check.mensaje }}
         </div>
       </div>
     </div>
 
     <!-- PAGINACIÓN -->
     <div class="health-pagination" *ngIf="totalHealthPages > 1">
-      <button (click)="prevPage()" [disabled]="currentPage === 1">‹</button>
+      <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 1">‹</button>
 
       <button
+        class="page-btn"
         *ngFor="let p of [].constructor(totalHealthPages); let i = index"
         (click)="goToPage(i + 1)"
         [class.active]="currentPage === i + 1"
@@ -723,7 +728,7 @@
         {{ i + 1 }}
       </button>
 
-      <button (click)="nextPage()" [disabled]="currentPage === totalHealthPages">›</button>
+      <button class="page-btn" (click)="nextPage()" [disabled]="currentPage === totalHealthPages">›</button>
     </div>
   </section>
 
